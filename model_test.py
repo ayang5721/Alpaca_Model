@@ -1,5 +1,8 @@
 import os, json
 import datetime
+import sys
+import time
+from datetime import date
 from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import MarketOrderRequest, GetAssetsRequest
 from alpaca.trading.enums import OrderSide, TimeInForce, AssetClass
@@ -30,14 +33,20 @@ aapl_asset = trading_client.get_asset("AAPL")
 print("AAPL Asset:", aapl_asset)
 print("APPL TRADE STATUS:", aapl_asset.tradable)
 
-file_name = "US_ASSET_DATA/8_27_US_ASSETS.json"
-if not os.path.exists(file_name):
-    with open (file_name, "w") as f:
+date = date.today()
+data_file_name = f"US_ASSET_DATA/{date}_US_ASSETS.json"
+if not os.path.exists(data_file_name):
+    with open (data_file_name, "w") as f:
         json.dump(assets, f, indent=4, default=str)
+
     
 #Stock information testing (specific stock data)
 request_params = StockLatestQuoteRequest(symbol_or_symbols="AAPL")
 quote = data_client.get_stock_latest_quote(request_params)
+
+print()
+
+print()
 
 print("AAPL CURRENT PRICE:", quote["AAPL"].ask_price)
 
